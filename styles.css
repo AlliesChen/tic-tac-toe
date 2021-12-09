@@ -1,0 +1,49 @@
+html,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+.row {
+    display: flex;
+    width: 500px;
+    height: 500px;
+}
+
+.column {
+    display: flex;
+    flex-flow: column;
+    flex: 1 1 auto;
+}
+
+.grid {
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid hsl(330, 100%, 71%);
+}
+
+/* the circle */
+.circle-sign::before {
+    content: "";
+    width: 100px;
+    height: 100px;
+    border: 20px solid hsl(330, 100%, 71%);
+    border-radius: 50%;
+}
+
+/* the cross */
+.cross-sign::before,
+.cross-sign::after {
+    content: "";
+    width: 20px;
+    height: 100px;
+    background-color:  hsl(330, 100%, 71%);
+    transform-origin: 50% 60%;
+    transform: rotate(45deg);
+}
+
+.cross-sign::after {
+    transform: rotate(-45deg);
+}
