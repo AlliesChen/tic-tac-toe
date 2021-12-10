@@ -3,8 +3,11 @@ html,
 *::after {
     box-sizing: border-box;
 }
+h1 {
+    text-align: center;
+}
 
-.row {
+.block {
     display: flex;
     width: 500px;
     height: 500px;
@@ -20,8 +23,11 @@ html,
     display: flex;
     flex: 1 1 auto;
     justify-content: center;
-    align-items: center;
     border: 1px solid hsl(330, 100%, 71%);
+}
+
+.sub-axis--center {
+    align-items: center;
 }
 
 /* the circle */
@@ -41,8 +47,9 @@ html,
     width: 20px;
     height: 100px;
     background-color:  hsl(330, 100%, 71%);
-    transform-origin: 50% 60%;
+    transform-origin: 50% 50%;
     transform: rotate(45deg);
+    position: absolute;
 }
 
 .cross-sign::after {
