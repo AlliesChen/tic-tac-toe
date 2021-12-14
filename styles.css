@@ -3,8 +3,14 @@ html,
 *::after {
     box-sizing: border-box;
 }
+
 h1 {
     text-align: center;
+    font-size: 36px;
+}
+
+h2 {
+    margin: 0;
 }
 
 .block {
@@ -16,7 +22,15 @@ h1 {
 .column {
     display: flex;
     flex-flow: column;
-    flex: 1 1 auto;
+    flex: 1 2 auto;
+    justify-content: flex-start;
+}
+
+.column--around {
+    display: flex;
+    flex-flow: column;
+    flex: 1 2 auto;
+    justify-content: space-around;
 }
 
 .grid {
@@ -28,6 +42,37 @@ h1 {
 
 .sub-axis--center {
     align-items: center;
+}
+
+.vh100 {
+    height: 100vh;
+}
+
+.infoSec {
+    height: 220px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+    height: 200px;
+    padding: 10px 0;
+    flex: 0 0 1;
+}
+
+.game__btn {
+    display: block;
+    width: 120px;
+    margin: 10px 0;
+    padding: 10px 0;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    background-color: cadetblue;
+}
+
+.game__btn:active {
+    background-color: rgb(184, 122, 41);
 }
 
 /* the circle */
@@ -54,4 +99,39 @@ h1 {
 
 .cross-sign::after {
     transform: rotate(-45deg);
+}
+
+.game__result {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 35%;
+    height: 30%;
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.msg__result {
+    font-size: 20px;
+    margin: 0;
+    margin-top: 30px;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+    background-color: rgb(184, 122, 41);
+    padding: 10px 0;
+}
+
+
+.msg__winner {
+    display: block;
+    color: #000;
+    font-size: 24px;
+    margin: 0;
+}
+
+.blank {
+    display: none;
 }
