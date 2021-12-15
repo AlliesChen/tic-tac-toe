@@ -33,6 +33,12 @@ h2 {
     justify-content: space-around;
 }
 
+.row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
 .grid {
     display: flex;
     flex: 1 1 auto;
@@ -53,16 +59,24 @@ h2 {
     display: flex;
     flex-flow: column;
     justify-content: center;
-    gap: 10px;
     align-items: center;
     height: 200px;
-    padding: 10px 0;
+    padding: 20px 0;
     flex: 0 0 1;
+}
+
+.infoSec label {
+    font-size: 16px;
+}
+
+.labelIn {
+    margin: 6px 2px;
 }
 
 .game__btn {
     display: block;
-    width: 120px;
+    width: 110px;
+    font-size: 14px;
     margin: 10px 0;
     padding: 10px 0;
     color: #fff;
@@ -134,4 +148,36 @@ h2 {
 
 .blank {
     display: none;
+}
+
+@media only screen and (max-width: 768px) {
+    .block {
+        display: flex;
+        width: 250px;
+        height: 250px; 
+    }
+
+    .circle-sign::before {
+        content: "";
+        width: 50px;
+        height: 50px;
+        border: 10px solid hsl(330, 100%, 71%);
+        border-radius: 50%;
+        position: absolute;
+    }
+
+    .cross-sign::before,
+    .cross-sign::after {
+    content: "";
+    width: 10px;
+    height: 50px;
+    background-color:  hsl(330, 100%, 71%);
+    transform-origin: 50% 50%;
+    transform: rotate(45deg);
+    position: absolute;
+    }
+
+    .cross-sign::after {
+        transform: rotate(-45deg);
+    }
 }

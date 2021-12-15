@@ -33,3 +33,7 @@ Additionally, for the detail of methods, which are also the key to implement the
 - [Funciton.prototype.apply()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply)
 
 To remove the event listener, refer to [the comment](https://stackoverflow.com/questions/4950115/removeeventlistener-on-anonymous-functions-in-javascript) by Adam Heath.
+
+For RWD(the grids and signs), refer to [this article](https://www.ucamc.com/e-learning/css/102-rwd-css-media-type).
+
+To trigger a click action automatically, refer to [the comment](https://stackoverflow.com/questions/2381572/how-can-i-trigger-a-javascript-event-click) by instanceof me and Mosh Feu.

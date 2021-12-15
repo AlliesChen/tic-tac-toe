@@ -82,8 +82,11 @@ const GameBoard = (() => {
         if(DisplayController.checkGame()) {
             announceBlock.classList.remove("blank");
             announceResult.textContent = "Tie!"
+            announceName.textContent = "";
             roundInfo.classList.add("blank");
+            return 0
         }
+        DisplayController.autoMove();
         return 0; 
     }
     
@@ -93,26 +96,21 @@ const GameBoard = (() => {
 // to controll the game flow base on rounds
 const DisplayController = (() => {
     let _round = 0;
+    let botStatus = false;
+    // Select elements from DOM
     const _grids =  document.querySelectorAll(".grid");
     const gameStartBtn = document.getElementById("gameStartBtn");
     const playStart = document.getElementById("playStart");
     const roundInfo = document.getElementById("roundInfo");
     const playerName = document.getElementById("playerName");
+    const botMode = document.getElementById("botMode");
+
     const player1 = Object.assign(Player("player1"), {sign: "x"});
     const player2 = Object.assign(Player("player2"), {sign: "o"});
 
     const handler = function(e) {
         GameBoard.recordRound(_roundCheck(e.target));
     };
-
-    gameStartBtn.addEventListener("click", () => {
-        _grids.forEach(grid => {
-            grid.addEventListener("click", handler);
-        });
-        playerName.textContent = player1.playerInput();
-        playStart.classList.add("blank");
-        roundInfo.classList.remove("blank");
-    });
 
     const _roundCheck = (grid) => {
         if (!grid.className.match(/cross-sign|circle-sign/)) {
@@ -133,6 +131,30 @@ const DisplayController = (() => {
         return {getGridItem, getPlayer};
     };
 
+    gameStartBtn.addEventListener("click", () => {
+        _grids.forEach(grid => {
+            grid.addEventListener("click", handler);
+        });
+        playerName.textContent = player1.playerInput();
+        playStart.classList.add("blank");
+        roundInfo.classList.remove("blank");
+    });
+
+    botMode.addEventListener("click", () => {
+        gameStartBtn.click();
+        botStatus = true;
+    });
+
+    function autoMove() {
+        if (botStatus === true && _round % 2 === 1) {
+            const blankGrids = Array.from(_grids).filter(grid => !(grid.className.match(/cross-sign|circle-sign/)));
+            const getRandom = ((min, max) => {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            })(0, blankGrids.length - 1);
+            blankGrids[getRandom].click();
+        }
+    }
+
     function checkGame() {
         if (_round > 8) {
             _round = 1;
@@ -148,10 +170,11 @@ const DisplayController = (() => {
             grid.classList.remove("circle-sign");
             grid.removeEventListener("click", handler);
         });
+        botStatus = false;
         _round = 0;
         playStart.classList.remove("blank");
         return 0
     }
-    
-    return {checkGame, resetGame};
+
+    return {checkGame, resetGame, autoMove};
 })();
