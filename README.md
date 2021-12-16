@@ -2,6 +2,8 @@
 
 [Live preview](https://allieschen.github.io/tic-tac-toe/)
 
+To test the minimax algorithm, set the player2's name to "Unbeatable".
+
 [How the system work(flowchart)](https://drive.google.com/file/d/156GqDK-x4kFQ9bUXjeG0POJVVMCNRJtR/view?usp=sharing)
 
 ## Requirements
@@ -17,7 +19,7 @@
   - Clean up the interface to allow players to put in their names
   - Include a button to start/restart the game
   - Add a display element that congratulates the winning player!
-- [ ] Optional: create an AI so that a player can play against the computer! 
+- [x] Optional: create an AI so that a player can play against the computer! 
   - Start by just getting the computer to make a random legal move.
   - Create an unbeatable AI using the minimax algorithm
 
@@ -37,3 +39,5 @@ To remove the event listener, refer to [the comment](https://stackoverflow.com/q
 For RWD(the grids and signs), refer to [this article](https://www.ucamc.com/e-learning/css/102-rwd-css-media-type).
 
 To trigger a click action automatically, refer to [the comment](https://stackoverflow.com/questions/2381572/how-can-i-trigger-a-javascript-event-click) by instanceof me and Mosh Feu.
+
+Color set: [Coolors](https://coolors.co/ffd9da-ea638c-89023e-30343f-1b2021)

@@ -35,50 +35,23 @@ const GameBoard = (() => {
             while(i--) arr[length-1 - i] = _createArray.apply(this, args);
         }
         return arr;
-    };
+    }
     
     function recordRound(round) {
         const gridItem = Array.from(round.getGridItem());
         _gridArr[gridItem[0]][gridItem[1]] = round.getPlayer().sign;
         _checkGame(round.getPlayer());
-    };
+    }
 
     function _checkGame(player) {
-        for (let row = 0; row < 3; row++) {
-            for (let pattern = 0; pattern < 4; pattern++) {
-                let count = 0;
-                for (let col = 2; col >= 0; col--) {
-                    switch (pattern) {
-                        case 0:
-                            if (_gridArr[row][col] === player.sign) {
-                                count++;
-                            }
-                            break;
-                        case 1:
-                            if (_gridArr[col][row] === player.sign) {
-                                count++;
-                            }
-                            break;
-                        case 2:
-                            if (_gridArr[col][col] === player.sign) {
-                                count++;
-                            }
-                            break;
-                        default:
-                            if (_gridArr[2 - col][col] === player.sign) {
-                                count++;
-                            }
-                    }
-                }
-                if (count === 3) {
-                    announceBlock.classList.remove("blank");
-                    announceResult.textContent = "Winner"
-                    announceName.textContent = player.playerInput();
-                    roundInfo.classList.add("blank");
-                    return 0;
-                }
-            }
+        if (checkArrRow() === 3 || checkArrCol() === 3 || checkArrNegSlope() === 3 || checkArrPosSlope() === 3) {
+            announceBlock.classList.remove("blank");
+            announceResult.textContent = "Winner"
+            announceName.textContent = player.playerInput();
+            roundInfo.classList.add("blank");
+            return 0;
         }
+        
         if(DisplayController.checkGame()) {
             announceBlock.classList.remove("blank");
             announceResult.textContent = "Tie!"
@@ -86,11 +59,125 @@ const GameBoard = (() => {
             roundInfo.classList.add("blank");
             return 0
         }
-        DisplayController.autoMove();
+        DisplayController.autoMove(_gridArr);
         return 0; 
     }
-    
-    return {recordRound};
+
+    function checkArrRow() {
+        let count = 0;
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (_gridArr[i][j] === "x") {
+                    count--;
+                } else if (_gridArr[i][j] === "o") {
+                    count++;
+                } else {
+                    _gridArr[i][j] = 0;
+                }
+            }
+            if (count === 3 || count === -3) {
+                return 3;
+            }
+            for (let j = 0; j < 3; j++) {
+                if (Number.isInteger(_gridArr[i][j])) {
+                    if (count === -2) {
+                        _gridArr[i][j] -= 99;
+                    } else if (count === 2) {
+                        _gridArr[i][j] += 999;
+                    } else {
+                        _gridArr[i][j] += count;
+                    }
+                }
+            }
+            count = 0;
+        }
+        return count;
+    }
+
+    function checkArrCol() {
+        let count = 0;
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (_gridArr[j][i] === "x") {
+                    count--;
+                } else if (_gridArr[j][i] === "o") {
+                    count++;
+                }
+            }
+            if (count === 3 || count === -3) {
+                return 3;
+            }
+            for (let j = 0; j < 3; j++) {
+                if (Number.isInteger(_gridArr[j][i])) {
+                    if (count === -2) {
+                        _gridArr[j][i] -= 99;
+                    } else if (count === 2) {
+                        _gridArr[j][i] += 999;
+                    } else {
+                        _gridArr[j][i] += count;
+                    }
+                }
+            }
+            count = 0;
+        }
+        return count;
+    }
+
+    function checkArrNegSlope() {
+        let count = 0;
+        for (let i = 0; i < 3; i++) {
+            if (_gridArr[i][i] === "x") {
+                count--;
+            } else if (_gridArr[i][i] === "o") {
+                count++;
+            }
+        }
+        if (count === 3 || count === -3) {
+            return 3;
+        }
+        for (let i = 0; i < 3; i++) {
+            if (Number.isInteger(_gridArr[i][i])) {
+                if (count === -2) {
+                    _gridArr[i][i] -= 99;
+                } else if (count === 2) {
+                    _gridArr[i][i] += 999;
+                } else {
+                    _gridArr[i][i] += (2 * count);
+                }
+            }
+        }
+        count = 0;
+        return count;
+    }
+
+    function checkArrPosSlope() {
+        let count = 0;
+        for (let i = 0; i < 3; i++) {
+            if (_gridArr[2-i][i] === "x") {
+                count--;
+            } else if (_gridArr[2-i][i] === "o") {
+                count++;
+            }
+        }
+        if (count === 3 || count === -3) {
+            return 3;
+        }
+        for (let i = 0; i < 3; i++) {
+            if (Number.isInteger(_gridArr[2-i][i])) {
+                if (count === -2) {
+                    _gridArr[2-i][i] -= 99;
+                } else if (count === 2) {
+                    _gridArr[2-i][i] += 999;
+                } else {
+                    _gridArr[2-i][i] += (2 * count);
+                }
+            }
+        }
+        count = 0;
+        return count;
+    }
+
+    return {recordRound, _gridArr};
 })();
 
 // to controll the game flow base on rounds
@@ -143,15 +230,50 @@ const DisplayController = (() => {
     botMode.addEventListener("click", () => {
         gameStartBtn.click();
         botStatus = true;
+        const hintMsg = document.getElementById("hint");
+        if (player2.playerInput() !== "Unbeatable") {
+            hintMsg.style.display = "block";
+        } else {
+            hintMsg.style.display = "none";
+        }
     });
 
-    function autoMove() {
+    function autoMove(arr) {
         if (botStatus === true && _round % 2 === 1) {
-            const blankGrids = Array.from(_grids).filter(grid => !(grid.className.match(/cross-sign|circle-sign/)));
-            const getRandom = ((min, max) => {
-                return Math.floor(Math.random() * (max - min + 1)) + min;
-            })(0, blankGrids.length - 1);
-            blankGrids[getRandom].click();
+            if (player2.playerInput() === "Unbeatable") {
+                const gridsArr = Array.from(arr);
+                let MIN = 0;
+                let MAX = 0;
+                for (let i = 0; i < 3; i++) {
+                    for (let j = 0; j < 3; j++) {
+                        if (gridsArr[i][j] <= MIN) {
+                            MIN = gridsArr[i][j];
+                        }
+                        if (gridsArr[i][j] >= MAX) {
+                            MAX = gridsArr[i][j];
+                        }
+                    }
+                }
+                let miniMax = (MIN + MAX <= 0) ? MIN : MAX;
+                for (let i = 0; i < 3; i++) {
+                    for (let j = 0; j < 3; j++) {
+                        if (gridsArr[i][j] === miniMax) {
+                            for (let k = _grids.length -1; k >= 0; k--) {
+                                if (_grids[k].dataset.item.match(`${i}${j}`)) {
+                                    _grids[k].click();
+                                }
+                            }
+                            return 0;
+                        }
+                    }
+                }
+            } else {
+                const blankGrids = Array.from(_grids).filter(grid => !(grid.className.match(/cross-sign|circle-sign/)));
+                const getRandom = ((min, max) => {
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                })(0, blankGrids.length - 1);
+                blankGrids[getRandom].click();
+            }
         }
     }
 

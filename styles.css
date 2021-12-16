@@ -43,7 +43,7 @@ h2 {
     display: flex;
     flex: 1 1 auto;
     justify-content: center;
-    border: 1px solid hsl(330, 100%, 71%);
+    border: 1px solid #ea638c;
 }
 
 .sub-axis--center {
@@ -65,12 +65,20 @@ h2 {
     flex: 0 0 1;
 }
 
-.infoSec label {
+.labelIn {
+    margin: 6px 2px;
+}
+
+.labelIn label {
     font-size: 16px;
 }
 
-.labelIn {
-    margin: 6px 2px;
+.labelIn input:focus {
+    outline: none;
+    border-style: solid;
+    border-radius: 2px;
+    box-shadow: 0 0 2px 2px #ffd9da;
+    border-color: #ea638c ;
 }
 
 .game__btn {
@@ -82,11 +90,12 @@ h2 {
     color: #fff;
     border: none;
     border-radius: 10px;
-    background-color: cadetblue;
+    background-color: #89023e;
+    cursor: pointer;
 }
 
 .game__btn:active {
-    background-color: rgb(184, 122, 41);
+    background-color: #ffd9da;
 }
 
 /* the circle */
@@ -94,7 +103,7 @@ h2 {
     content: "";
     width: 100px;
     height: 100px;
-    border: 20px solid hsl(330, 100%, 71%);
+    border: 20px solid #30343f;
     border-radius: 50%;
     position: absolute;
 }
@@ -105,7 +114,7 @@ h2 {
     content: "";
     width: 20px;
     height: 100px;
-    background-color:  hsl(330, 100%, 71%);
+    background-color:  #30343f;
     transform-origin: 50% 50%;
     transform: rotate(45deg);
     position: absolute;
@@ -134,20 +143,25 @@ h2 {
     color: #fff;
     text-align: center;
     width: 100%;
-    background-color: rgb(184, 122, 41);
+    background-color: #ea638c;
     padding: 10px 0;
 }
 
 
 .msg__winner {
     display: block;
-    color: #000;
+    color: #1b2021;
     font-size: 24px;
     margin: 0;
 }
 
 .blank {
     display: none;
+}
+
+.msg {
+    display: none;
+    font-size: 12px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -161,7 +175,7 @@ h2 {
         content: "";
         width: 50px;
         height: 50px;
-        border: 10px solid hsl(330, 100%, 71%);
+        border: 10px solid #30343f;
         border-radius: 50%;
         position: absolute;
     }
@@ -171,7 +185,7 @@ h2 {
     content: "";
     width: 10px;
     height: 50px;
-    background-color:  hsl(330, 100%, 71%);
+    background-color:  #30343f;
     transform-origin: 50% 50%;
     transform: rotate(45deg);
     position: absolute;
