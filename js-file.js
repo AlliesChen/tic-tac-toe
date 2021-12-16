@@ -141,6 +141,8 @@ const GameBoard = (() => {
                     _gridArr[i][i] -= 99;
                 } else if (count === 2) {
                     _gridArr[i][i] += 999;
+                } else if (i === 1) {
+                    _gridArr[i][i] += (4 * count);
                 } else {
                     _gridArr[i][i] += (2 * count);
                 }
@@ -177,7 +179,7 @@ const GameBoard = (() => {
         return count;
     }
 
-    return {recordRound, _gridArr};
+    return {recordRound};
 })();
 
 // to controll the game flow base on rounds
