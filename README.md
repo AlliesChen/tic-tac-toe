@@ -41,3 +41,5 @@ For RWD(the grids and signs), refer to [this article](https://www.ucamc.com/e-le
 To trigger a click action automatically, refer to [the comment](https://stackoverflow.com/questions/2381572/how-can-i-trigger-a-javascript-event-click) by instanceof me and Mosh Feu.
 
 Color set: [Coolors](https://coolors.co/ffd9da-ea638c-89023e-30343f-1b2021)
+
+Fonts: [Itim | Google Fonts](https://fonts.google.com/specimen/Itim?category=Handwriting&preview.text=Tic%20Tac%20Toe&preview.text_type=custom#standard-styles)
