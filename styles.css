@@ -3,10 +3,19 @@ html,
 *::after {
     box-sizing: border-box;
 }
+h1,
+h2,
+p,
+label,
+input,
+button {
+    font-family: Itim;
+}
 
 h1 {
+    margin: 0;
     text-align: center;
-    font-size: 36px;
+    font-size: 44px;
 }
 
 h2 {
@@ -23,7 +32,7 @@ h2 {
     display: flex;
     flex-flow: column;
     flex: 1 2 auto;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .column--around {
@@ -43,7 +52,6 @@ h2 {
     display: flex;
     flex: 1 1 auto;
     justify-content: center;
-    border: 1px solid #ea638c;
 }
 
 .sub-axis--center {
@@ -52,6 +60,16 @@ h2 {
 
 .vh100 {
     height: 100vh;
+}
+
+.bx {
+    border-left: 5px solid #ea638c;
+    border-right: 5px solid #ea638c;
+}
+
+.by {
+    border-top: 5px solid #ea638c;
+    border-bottom: 5px solid #ea638c;
 }
 
 .infoSec {
@@ -69,8 +87,13 @@ h2 {
     margin: 6px 2px;
 }
 
-.labelIn label {
-    font-size: 16px;
+.labelIn label,
+.labelIn input {
+    font-size: 18px;
+}
+
+.labelIn input {
+    width: 10vw;
 }
 
 .labelIn input:focus {
@@ -84,7 +107,7 @@ h2 {
 .game__btn {
     display: block;
     width: 110px;
-    font-size: 14px;
+    font-size: 16px;
     margin: 10px 0;
     padding: 10px 0;
     color: #fff;
@@ -130,12 +153,11 @@ h2 {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 35%;
+    width: 30%;
     height: 30%;
-    border: 1px solid;
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 0 10px #FFD9DA;
+    box-shadow: 0 0 10px 2px #FFD9DA;
 }
 
 .game__result::before {
@@ -156,13 +178,14 @@ h2 {
     width: 100%;
     background-color: #ea638c;
     padding: 10px 0;
+    font-size: 30px;
 }
 
 
 .msg__winner {
     display: block;
     color: #1b2021;
-    font-size: 24px;
+    font-size: 36px;
     margin: 0;
 }
 
@@ -170,16 +193,20 @@ h2 {
     display: none;
 }
 
-.msg {
-    display: none;
-    font-size: 12px;
-}
-
 @media only screen and (max-width: 768px) {
     .block {
         display: flex;
         width: 250px;
         height: 250px; 
+    }
+
+    .labelIn input {
+        width: 25vw;
+    }
+
+    .game__result {
+        width: 60%;
+        height: 30%;
     }
 
     .circle-sign::before {

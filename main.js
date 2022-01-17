@@ -185,14 +185,14 @@ const GameBoard = (() => {
 // to controll the game flow base on rounds
 const DisplayController = (() => {
     let _round = 0;
-    let botStatus = false;
+    let botStatus = 'off';
     // Select elements from DOM
     const _grids =  document.querySelectorAll(".grid");
     const gameStartBtn = document.getElementById("gameStartBtn");
     const playStart = document.getElementById("playStart");
     const roundInfo = document.getElementById("roundInfo");
     const playerName = document.getElementById("playerName");
-    const botMode = document.getElementById("botMode");
+    const botModeBtn = document.getElementById("botMode");
 
     const player1 = Object.assign(Player("player1"), {sign: "x"});
     const player2 = Object.assign(Player("player2"), {sign: "o"});
@@ -221,6 +221,7 @@ const DisplayController = (() => {
     };
 
     gameStartBtn.addEventListener("click", () => {
+        resetGame();
         _grids.forEach(grid => {
             grid.addEventListener("click", handler);
         });
@@ -229,52 +230,83 @@ const DisplayController = (() => {
         roundInfo.classList.remove("blank");
     });
 
-    botMode.addEventListener("click", () => {
-        gameStartBtn.click();
-        botStatus = true;
-        const hintMsg = document.getElementById("hint");
-        if (player2.playerInput() !== "Unbeatable") {
-            hintMsg.style.display = "block";
-        } else {
-            hintMsg.style.display = "none";
-        }
+    botModeBtn.addEventListener("click", () => {
+        const easyModeBtn = document.createElement('button');
+        const hardModeBtn = document.createElement('button');
+        const initBtns = document.querySelector('#initBtns');
+
+        easyModeBtn.classList.add('game__btn');
+        easyModeBtn.setAttribute('style', 'background-color: #ffd9da; color: #000');
+        easyModeBtn.textContent = 'Easy Mode'
+
+        hardModeBtn.classList.add('game__btn');
+        hardModeBtn.setAttribute('style', 'background-color: #1b2021');
+        hardModeBtn.textContent = 'Hard Mode'
+
+        gameStartBtn.setAttribute('style', 'display: none');
+        botModeBtn.setAttribute('style', 'display: none');
+
+        initBtns.appendChild(easyModeBtn);
+        initBtns.appendChild(hardModeBtn);
+        easyModeBtn.addEventListener('click', () => {
+            gameStartBtn.click();
+            botStatus = 'easy';
+            easyModeBtn.setAttribute('style', 'display: none');
+            hardModeBtn.setAttribute('style', 'display: none');
+            gameStartBtn.setAttribute('style', 'display: block');
+            botModeBtn.setAttribute('style', 'display: block');
+        });
+        hardModeBtn.addEventListener('click', () => {
+            gameStartBtn.click();
+            botStatus = 'hard';
+            easyModeBtn.setAttribute('style', 'display: none');
+            hardModeBtn.setAttribute('style', 'display: none');
+            gameStartBtn.setAttribute('style', 'display: block');
+            botModeBtn.setAttribute('style', 'display: block');
+        });
     });
 
+
     function autoMove(arr) {
-        if (botStatus === true && _round % 2 === 1) {
-            if (player2.playerInput() === "Unbeatable") {
-                const gridsArr = Array.from(arr);
-                let MIN = 0;
-                let MAX = 0;
-                for (let i = 0; i < 3; i++) {
-                    for (let j = 0; j < 3; j++) {
-                        if (gridsArr[i][j] <= MIN) {
-                            MIN = gridsArr[i][j];
-                        }
-                        if (gridsArr[i][j] >= MAX) {
-                            MAX = gridsArr[i][j];
-                        }
-                    }
-                }
-                let miniMax = (MIN + MAX <= 0) ? MIN : MAX;
-                for (let i = 0; i < 3; i++) {
-                    for (let j = 0; j < 3; j++) {
-                        if (gridsArr[i][j] === miniMax) {
-                            for (let k = _grids.length -1; k >= 0; k--) {
-                                if (_grids[k].dataset.item.match(`${i}${j}`)) {
-                                    _grids[k].click();
-                                }
+        if (botStatus !== 'off' && _round % 2 === 1) {
+            switch (botStatus) {
+                case 'hard':
+                    const gridsArr = Array.from(arr);
+                    let MIN = 0;
+                    let MAX = 0;
+                    for (let i = 0; i < 3; i++) {
+                        for (let j = 0; j < 3; j++) {
+                            if (gridsArr[i][j] <= MIN) {
+                                MIN = gridsArr[i][j];
                             }
-                            return 0;
+                            if (gridsArr[i][j] >= MAX) {
+                                MAX = gridsArr[i][j];
+                            }
                         }
                     }
-                }
-            } else {
-                const blankGrids = Array.from(_grids).filter(grid => !(grid.className.match(/cross-sign|circle-sign/)));
-                const getRandom = ((min, max) => {
-                    return Math.floor(Math.random() * (max - min + 1)) + min;
-                })(0, blankGrids.length - 1);
-                blankGrids[getRandom].click();
+                    let miniMax = (MIN + MAX <= 0) ? MIN : MAX;
+                    for (let i = 0; i < 3; i++) {
+                        for (let j = 0; j < 3; j++) {
+                            if (gridsArr[i][j] === miniMax) {
+                                for (let k = _grids.length -1; k >= 0; k--) {
+                                    if (_grids[k].dataset.item.match(`${i}${j}`)) {
+                                        _grids[k].click();
+                                    }
+                                }
+                                return 0;
+                            }
+                        }
+                    }
+                    break;
+                case 'easy':
+                    const blankGrids = Array.from(_grids).filter(grid => !(grid.className.match(/cross-sign|circle-sign/)));
+                    const getRandom = ((min, max) => {
+                        return Math.floor(Math.random() * (max - min + 1)) + min;
+                    })(0, blankGrids.length - 1);
+                    blankGrids[getRandom].click();
+                    break
+                default:
+                    console.log('Error: no such mode exists');
             }
         }
     }
@@ -294,7 +326,7 @@ const DisplayController = (() => {
             grid.classList.remove("circle-sign");
             grid.removeEventListener("click", handler);
         });
-        botStatus = false;
+        botStatus = 'off';
         _round = 0;
         playStart.classList.remove("blank");
         return 0
